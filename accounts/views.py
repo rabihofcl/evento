@@ -19,8 +19,8 @@ class UserRegisterAV(APIView):
         if serializer.is_valid():
             user = serializer.save()
             return Response({
-                "user": UserSerializer(user, context=self.get_serializer_context()).data,
-                'message': "User Registered Successfully"
+                "user": UserSerializer(user,context=self.get_serializer_context()).data,
+                "message": "Registered Successfully.  Now perform Login to get your token",
             })
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
