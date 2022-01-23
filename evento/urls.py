@@ -20,14 +20,18 @@ from rest_framework_simplejwt import views as jwt_views
 
 
 from accounts.views import UserRegisterAV
+from professionals.views import ProfessionalsRegisterAV
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/login/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
 
 
-    path('api/register/', UserRegisterAV.as_view(), name='register')
+    path('api/register/', UserRegisterAV.as_view(), name='register'),
+
+    path('api/professionals/register/', ProfessionalsRegisterAV.as_view(), name='professionals-register'),
+
 ]
