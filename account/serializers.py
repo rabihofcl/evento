@@ -6,7 +6,7 @@ import re
 
 class UserSerializer(serializers.ModelSerializer):
 
-    _id = serializers.SerializerMethodField(read_only=True)
+    # _id = serializers.SerializerMethodField(read_only=True)
     password2 = serializers.CharField(style={'input_type':'password'},write_only=True)
     
     class Meta:
