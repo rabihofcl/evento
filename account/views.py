@@ -27,5 +27,8 @@ class UserRegisterAV(APIView):
                 "message": "Registered Successfully.  Now perform Login to get your token",
             })
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            errors = serializer.errors.values()
+            print(errors)
+
+            return Response(errors, status=status.HTTP_400_BAD_REQUEST)
         
