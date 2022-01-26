@@ -11,7 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = [ 'first_name', 'last_name', 'username', 'email', 'phone_number', 'password', 'password2']
+        fields = [ 'name', 'username', 'email', 'phone_number', 'password', 'password2']
 
         extra_kwargs = {
             'password' : {'write_only': True}
@@ -47,8 +47,7 @@ class UserSerializer(serializers.ModelSerializer):
                     raise serializers.ValidationError("Password should contain Uppercase, Lowercase, Numeric and Special Characters.")
 
         user = User(
-            first_name = self.validated_data['first_name'],
-            last_name = self.validated_data['last_name'],
+            name = self.validated_data['name'],
             username = self.validated_data['username'],
             email = self.validated_data['email'],
             phone_number = self.validated_data['phone_number']

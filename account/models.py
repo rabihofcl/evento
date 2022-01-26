@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 # Create your models here.
 
 class MyAccountManager(BaseUserManager):
-    def create_user(self, first_name, last_name, username, email, phone_number, password=None):
+    def create_user(self, name, username, email, phone_number, password=None):
         if not email:
             raise ValueError('User must have an email address')
         
@@ -15,8 +15,7 @@ class MyAccountManager(BaseUserManager):
         user = self.model(
             email = self.normalize_email(email),
             username = username,
-            first_name = first_name,
-            last_name = last_name,
+            name = name,
             phone_number = phone_number,
         )
 
@@ -25,12 +24,11 @@ class MyAccountManager(BaseUserManager):
         return user
 
 
-    def create_superuser(self, first_name, last_name, username, email, phone_number, password):
+    def create_superuser(self, name, username, email, phone_number, password):
         user = self.create_user(
             email = self.normalize_email(email),
             username = username,
-            first_name = first_name,
-            last_name = last_name,
+            name = name,
             phone_number = phone_number,
             password = password
         )
@@ -45,8 +43,7 @@ class MyAccountManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
     username = models.CharField(max_length=50, unique=True)
     email = models.EmailField(max_length=100, unique=True)
     phone_number = models.CharField(max_length=50, unique=True)
@@ -60,12 +57,9 @@ class User(AbstractBaseUser):
     is_superuser = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'first_name', 'last_name', 'phone_number']
+    REQUIRED_FIELDS = ['username', 'name', 'phone_number']
 
     objects = MyAccountManager()
-
-    def full_name(self):
-        return f'{self.first_name} {self.last_name}'
 
     def __str__(self):
         return self.email
