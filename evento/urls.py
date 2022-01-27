@@ -21,7 +21,7 @@ from rest_framework.schemas import get_schema_view
 from rest_framework.documentation import include_docs_urls
 
 
-from account.views import UserRegisterAV
+from account.views import UserRegisterAV, RegisterOtpAV, ConfirmRegisterOtpAV
 from vendor.views import VendorRegisterAV, VendorUpdateAV, VendorSubscriptionAV
 
 
@@ -39,6 +39,8 @@ urlpatterns = [
 
 
     path('api/register/', UserRegisterAV.as_view(), name='register'),
+    path('api/register/otp/', RegisterOtpAV.as_view(), name='register-otp-verify'),
+    path('api/register/confirm/', ConfirmRegisterOtpAV.as_view(), name='register-otp-confirm'),
 
     path('api/vendor/register/', VendorRegisterAV.as_view(), name='vendor-register'),
     path('api/vendor/update/', VendorUpdateAV.as_view(), name='vendor-update'),

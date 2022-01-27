@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.response import Response
 from .models import User
 import re
 
@@ -6,7 +7,6 @@ import re
 
 class UserSerializer(serializers.ModelSerializer):
 
-    # _id = serializers.SerializerMethodField(read_only=True)
     password2 = serializers.CharField(style={'input_type':'password'},write_only=True)
     
     class Meta:
@@ -36,6 +36,9 @@ class UserSerializer(serializers.ModelSerializer):
                     })
             if phone_number:
                 if User.objects.filter(phone_number=self.validated_data['phone_number']).exists():
+                    return Response({
+                        "phone" : ""
+                    })
                     raise serializers.ValidationError({
                         "error":"Phone number is already exists"
                     })

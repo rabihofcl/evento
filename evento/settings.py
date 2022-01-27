@@ -82,10 +82,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'evento.wsgi.application'
 
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+    'EXCEPTION_HANDLER': 'my_project.my_app.utils. genelalizing_exception_handler',
 }
 
 # Database
