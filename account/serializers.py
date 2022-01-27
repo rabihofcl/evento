@@ -25,14 +25,20 @@ class UserSerializer(serializers.ModelSerializer):
         phone_number = self.validated_data['phone_number']
 
         if password != password2:
-            raise serializers.ValidationError("Password is not matching")
+            raise serializers.ValidationError({
+                        "error":"Password is not matching"
+                    })
         else:
             if email:
                 if User.objects.filter(email=self.validated_data['email']).exists():
-                    raise serializers.ValidationError("Email is already exists")
+                    raise serializers.ValidationError({
+                        "error":"Email is already exists"
+                    })
             if phone_number:
                 if User.objects.filter(phone_number=self.validated_data['phone_number']).exists():
-                    raise serializers.ValidationError("Phone number is already exists")
+                    raise serializers.ValidationError({
+                        "error":"Phone number is already exists"
+                    })
             if password:
                 reg = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{6,20}$"
 
@@ -44,7 +50,9 @@ class UserSerializer(serializers.ModelSerializer):
 
                 # validating conditions
                 if match == None:
-                    raise serializers.ValidationError("Password should contain Uppercase, Lowercase, Numeric and Special Characters.")
+                    raise serializers.ValidationError({
+                        "errors":"Password should contain Uppercase, Lowercase, Numeric and Special Characters."
+                    })
 
         user = User(
             name = self.validated_data['name'],
