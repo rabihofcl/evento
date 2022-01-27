@@ -21,13 +21,15 @@ class UserRegisterAV(APIView):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            user = serializer.data
+            print(serializer.errors)
             return Response({
                 "user": serializer.data,
                 "message": "Registered Successfully.  Now perform Login to get your token",
             })
         else:
+            print(serializer.errors)
             return Response({
-                "errors": serializer.errors
+                "errors": serializer.errors,
+                "ameer":"rabih"
             })
         
