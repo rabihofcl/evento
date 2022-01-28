@@ -24,16 +24,19 @@ class UserRegisterAV(APIView):
 
     def post(self, request):
         serializer = UserSerializer(data=request.data)
-        responses = {}
-        if serializer.is_valid(raise_exception=True):
+        # print(serializer.errors)
+        if serializer.is_valid():
             serializer.save()
-            responses['user'] = serializer.data
-            responses['message'] = "Registered Successfully.  Now perform Login to get your token"
-            return Response(responses)
+            return Response({
+                "user": serializer.data,
+                "message": "Registered Successfully"
+            })
         else:
-            responses['errors'] = serializer.errors
-            
-        return Response(responses)
+            print(serializer.errors)
+            return Response({
+                "error": serializer.errors
+            })
+        
 
 
 class RegisterOtpAV(APIView):

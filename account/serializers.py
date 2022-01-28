@@ -36,9 +36,6 @@ class UserSerializer(serializers.ModelSerializer):
                     })
             if phone_number:
                 if User.objects.filter(phone_number=self.validated_data['phone_number']).exists():
-                    return Response({
-                        "phone" : ""
-                    })
                     raise serializers.ValidationError({
                         "error":"Phone number is already exists"
                     })
