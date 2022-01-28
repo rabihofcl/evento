@@ -5,8 +5,6 @@ from .models import Vendor, VendorSubscription
 
 
 
-
-@permission_classes([IsAuthenticated])
 class VendorSerializer(serializers.ModelSerializer):
 
     # _id = serializers.SerializerMethodField(read_only=True)
@@ -16,7 +14,7 @@ class VendorSerializer(serializers.ModelSerializer):
         fields = [ 'user', 'full_name', 'profile_picture', 'category', 'place', 'city', 'state', 'pincode']
 
 
-@permission_classes([IsAuthenticated])
+
 class VendorSubscriptionSerializer(serializers.ModelSerializer):
 
     class Meta:

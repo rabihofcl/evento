@@ -24,6 +24,7 @@ class UserSerializer(serializers.ModelSerializer):
         email = self.validated_data['email']
         phone_number = self.validated_data['phone_number']
 
+
         if password != password2:
             raise serializers.ValidationError({
                         "error":"Password is not matching"
@@ -53,16 +54,16 @@ class UserSerializer(serializers.ModelSerializer):
                     raise serializers.ValidationError({
                         "errors":"Password should contain Uppercase, Lowercase, Numeric and Special Characters."
                     })
+                else:
+                    user = User(
+                        name = self.validated_data['name'],
+                        username = self.validated_data['username'],
+                        email = self.validated_data['email'],
+                        phone_number = self.validated_data['phone_number']
+                    )
+                    user.set_password(password)
+                    user.save()
 
-                user = User(
-                    name = self.validated_data['name'],
-                    username = self.validated_data['username'],
-                    email = self.validated_data['email'],
-                    phone_number = self.validated_data['phone_number']
-                )
-                user.set_password(password)
-                user.save()
-
-                return user
+                    return user
 
         

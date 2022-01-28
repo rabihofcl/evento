@@ -1,6 +1,8 @@
 import email
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 from .models import Vendor, VendorSubscription
 from .serializers import VendorSerializer, VendorSubscriptionSerializer
@@ -13,17 +15,44 @@ from rest_framework import status
 
 class VendorRegisterAV(APIView):
 
-    def post(self, request):
-        if Vendor.objects.filter(user=request.user):
-            message = {'detail': 'Already exists'}
-            return Response(message, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            serializer = VendorSerializer(data=request.data)
-            if serializer.is_valid():
-                serializer.save(user=request.user)
-                return Response(serializer.data)
-            else:
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    permission_classes = [IsAuthenticated]
+
+
+    def get(self, request):
+        vendors = Vendor.objects.all()
+        serializer = VendorSerializer(vendors, many=True)
+        return Response(serializer.data)
+
+
+    # def post(self, request):
+
+    #     if Vendor.objects.filter(user=request.user):
+    #         message = {'detail': 'Already exists'}
+    #         return Response(message, status=status.HTTP_400_BAD_REQUEST)
+    #     else:
+    #         serializer = VendorSerializer(data=request.data)
+    #         if serializer.is_valid():
+    #             serializer.save(user=request.user)
+    #             return Response(serializer.data)
+    #         else:
+    #             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# class VendorRegisterAV(generics.CreateAPIView):
+#     queryset = Vendor.objects.all()
+#     serializer_class = VendorSerializer
+#     permission_classes = [IsAdminUser]
+
+
+#     def post(self, request, *args, **kwargs):
+#         # Note the use of `get_queryset()` instead of `self.queryset`
+#         serializer = self.get_serializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save(user=request.user)
+#             return Response(serializer.data)
+#         else:
+#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class VendorUpdateAV(APIView):

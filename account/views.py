@@ -3,6 +3,7 @@ from django.shortcuts import render
 from decouple import config
 from twilio.rest import Client
 from twilio.base.exceptions import TwilioRestException
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 # Create your views here.
 from rest_framework.response import Response
@@ -15,7 +16,7 @@ from rest_framework import status
 
 
 class UserRegisterAV(APIView):
-
+    # permission_classes = [IsAdminUser]    
 
     def get(self, request):
         users = User.objects.all()
@@ -24,7 +25,6 @@ class UserRegisterAV(APIView):
 
     def post(self, request):
         serializer = UserSerializer(data=request.data)
-        # print(serializer.errors)
         if serializer.is_valid():
             serializer.save()
             return Response({
@@ -36,6 +36,15 @@ class UserRegisterAV(APIView):
             return Response({
                 "error": serializer.errors
             })
+
+
+
+class UsersListAV(APIView):
+    permission_classes = [IsAdminUser]
+    def get(self, request):
+        users = User.objects.all()
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data)
         
 
 
@@ -45,7 +54,6 @@ class RegisterOtpAV(APIView):
 
         data = request.data
         phone_number = data['phone_number']
-        print(phone_number)
 
         try:
             account_sid = config('account_sid')
@@ -99,4 +107,84 @@ class ConfirmRegisterOtpAV(APIView):
             })
 
 
+class ForgotPhoneCheckAV(APIView):
+
+    def post(self, request):
         
+        data = request.data
+        phone_number = data['phone_number']
+
+        if User.objects.filter(phone_number = phone_number):
+            try:
+                account_sid = config('account_sid')
+                auth_token = config('auth_token')
+                client = Client(account_sid, auth_token)
+
+                verification = client.verify \
+                    .services('VA47f566d6a44e75409506f475d3231b04') \
+                    .verifications \
+                    .create(to='+91'+phone_number, channel='sms')
+
+                return Response({
+                    "success": "Otp send successfully"
+                })
+            except TwilioRestException:
+                return Response({
+                    "error": "some error occured"
+                })
+
+        else:
+            return Response({
+                "error": "Phone Number is not registered"
+            })
+            
+
+
+
+class ConfirmForgetOtpAV(APIView):
+
+    def post(self, request):
+
+        data = request.data
+        phone_number = data['phone_number']
+        otp = data['otp']
+
+        account_sid = config('account_sid')
+        auth_token = config('auth_token')
+        client = Client(account_sid, auth_token)
+
+        verification_check = client.verify \
+            .services('VA47f566d6a44e75409506f475d3231b04') \
+            .verification_checks \
+            .create(to='+91'+phone_number, code=otp)
+
+        if verification_check.status == 'approved':
+            user = User.objects.get(phone_number=phone_number)
+            user.is_verified = True
+            user.save()
+
+            return Response({
+                "success":"otp verified"
+            })
+        else:
+            return Response({
+                "error": "otp not matching"
+            })
+
+
+class ForgetChangePasswordAV(APIView):
+
+    def post(self, request):
+
+        data = request.data
+        phone_number = data['phone_number']
+        password = data['password']
+
+        user = User.objects.get(phone_number = phone_number)
+
+        user.set_password(password)
+        user.save()
+
+        return Response({
+            "success": "Password changed successfully"
+        })

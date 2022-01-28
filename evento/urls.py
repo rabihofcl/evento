@@ -21,12 +21,13 @@ from rest_framework.schemas import get_schema_view
 from rest_framework.documentation import include_docs_urls
 
 
-from account.views import UserRegisterAV, RegisterOtpAV, ConfirmRegisterOtpAV
+from account.views import UserRegisterAV, RegisterOtpAV, ConfirmRegisterOtpAV, UsersListAV, ForgotPhoneCheckAV, ConfirmForgetOtpAV, ForgetChangePasswordAV
 from vendor.views import VendorRegisterAV, VendorUpdateAV, VendorSubscriptionAV
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path('docs/',include_docs_urls(title='EventoAPI')),
     path('schema', get_schema_view(
         title="EventoAPI",
@@ -41,6 +42,10 @@ urlpatterns = [
     path('api/register/', UserRegisterAV.as_view(), name='register'),
     path('api/register/otp/', RegisterOtpAV.as_view(), name='register-otp-verify'),
     path('api/register/confirm/', ConfirmRegisterOtpAV.as_view(), name='register-otp-confirm'),
+    path('api/forget/phonecheck/', ForgotPhoneCheckAV.as_view(), name='forget-phone-check'),
+    path('api/forget/otpconfirm/', ConfirmForgetOtpAV.as_view(), name='forget-otp-confirm'),
+    path('api/forget/changepass/', ForgetChangePasswordAV.as_view(), name='forget-password-change'),
+    path('api/users/list/', UsersListAV.as_view(), name='users-list'),
 
     path('api/vendor/register/', VendorRegisterAV.as_view(), name='vendor-register'),
     path('api/vendor/update/', VendorUpdateAV.as_view(), name='vendor-update'),
