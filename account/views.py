@@ -27,7 +27,6 @@ class UserRegisterAV(APIView):
         responses = {}
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            request.session['phone_number'] = serializer.data['phone_number']
             responses['user'] = serializer.data
             responses['message'] = "Registered Successfully.  Now perform Login to get your token"
             return Response(responses)
@@ -39,69 +38,62 @@ class UserRegisterAV(APIView):
 
 class RegisterOtpAV(APIView):
 
+    def post(self, request):
 
-    def get(self, request):
-        if 'phone_number' in request.session:
-            phone_number = request.session['phone_number']
+        data = request.data
+        phone_number = data['phone_number']
+        print(phone_number)
 
-            try:
-                account_sid = config('account_sid')
-                auth_token = config('auth_token')
-                client = Client(account_sid, auth_token)
+        try:
+            account_sid = config('account_sid')
+            auth_token = config('auth_token')
+            client = Client(account_sid, auth_token)
 
-                verification = client.verify \
-                    .services('VA47f566d6a44e75409506f475d3231b04') \
-                    .verifications \
-                    .create(to='+91'+phone_number, channel='sms')
-            except TwilioRestException:
-                return Response({
-                    "error": "Not a valid phone number"
-                })
+            verification = client.verify \
+                .services('VA47f566d6a44e75409506f475d3231b04') \
+                .verifications \
+                .create(to='+91'+phone_number, channel='sms')
 
             return Response({
-                "success":"otp send successfully"
+                "success": "Otp send successfully"
             })
-        else:
+        except TwilioRestException:
             return Response({
-                "error":"no phone number in session"
+                "error": "Not a valid phone number"
             })
+            
 
 
 
 class ConfirmRegisterOtpAV(APIView):
 
     def post(self, request):
-        if 'phone_number' in request.session:
-            phone_number = request.session['phone_number']
 
-            data = request.data
-            otp = data['otp']
+        data = request.data
+        phone_number = data['phone_number']
+        otp = data['otp']
 
-            account_sid = config('account_sid')
-            auth_token = config('auth_token')
-            client = Client(account_sid, auth_token)
+        account_sid = config('account_sid')
+        auth_token = config('auth_token')
+        client = Client(account_sid, auth_token)
 
-            verification_check = client.verify \
-                .services('VA47f566d6a44e75409506f475d3231b04') \
-                .verification_checks \
-                .create(to='+91'+phone_number, code=otp)
+        verification_check = client.verify \
+            .services('VA47f566d6a44e75409506f475d3231b04') \
+            .verification_checks \
+            .create(to='+91'+phone_number, code=otp)
 
-            if verification_check.status == 'approved':
-                user = User.objects.get(phone_number=phone_number)
-                user.is_verified = True
-                user.save()
+        if verification_check.status == 'approved':
+            user = User.objects.get(phone_number=phone_number)
+            user.is_verified = True
+            user.save()
 
-                return Response({
-                    "success":"otp verified"
-                })
-            else:
-                return Response({
-                    "error": "otp not matching"
-                })
-
+            return Response({
+                "success":"otp verified"
+            })
         else:
             return Response({
-                "error":"no phone number in session"
+                "error": "otp not matching"
             })
+
 
         
