@@ -14,6 +14,7 @@ class Vendor(models.Model):
     city = models.CharField(max_length=50, blank=True)
     state = models.CharField(max_length=50, blank=True)
     pincode = models.CharField(max_length=10, blank=True)
+    is_subscribed = models.BooleanField(default=False)
 
 
     def __str__(self):
@@ -21,7 +22,8 @@ class Vendor(models.Model):
 
 
 class VendorSubscription(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    vendor = models.OneToOneField(Vendor, on_delete=models.CASCADE)
+    subscription_type = models.CharField(max_length=10)
     subscription_amount = models.CharField(max_length=10, blank=True)
     subscription_date = models.DateField(auto_now=True)
     expiry_date = models.DateField(auto_now=True)

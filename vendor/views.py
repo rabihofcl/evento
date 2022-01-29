@@ -12,6 +12,21 @@ from rest_framework import status
 # Create your views here.
 
 
+class VendorRegisterCheckAV(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = User.objects.get(email=request.user)
+        if user.is_staff:
+            return Response({
+                "success": "User is Vendor"
+            })
+        else:
+            return Response({
+                "error":"User is not a vendor"
+            })
+
 
 class VendorRegisterAV(APIView):
 

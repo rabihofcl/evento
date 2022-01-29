@@ -165,8 +165,12 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
-    'EXCEPTION_HANDLER': 'my_project.my_app.utils. genelalizing_exception_handler',
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    # 'EXCEPTION_HANDLER': [
+    #     'my_project.my_app.utils. genelalizing_exception_handler',
+    # ],
+    # 'DEFAULT_SCHEMA_CLASS': [
+    #     'rest_framework.schemas.coreapi.AutoSchema',
+    # ],
 }
 
 SIMPLE_JWT = {
