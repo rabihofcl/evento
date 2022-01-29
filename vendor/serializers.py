@@ -7,8 +7,6 @@ from .models import Vendor, VendorSubscription
 
 class VendorSerializer(serializers.ModelSerializer):
 
-    # _id = serializers.SerializerMethodField(read_only=True)
-
     class Meta:
         model = Vendor
         fields = [ 'user', 'full_name', 'profile_picture', 'category', 'place', 'city', 'state', 'pincode']

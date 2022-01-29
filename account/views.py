@@ -1,5 +1,3 @@
-from django.http import response
-from django.shortcuts import render
 from decouple import config
 from twilio.rest import Client
 from twilio.base.exceptions import TwilioRestException
@@ -16,7 +14,6 @@ from rest_framework import status
 
 
 class UserRegisterAV(APIView):
-    # permission_classes = [IsAdminUser]    
 
     def get(self, request):
         users = User.objects.all()
