@@ -23,7 +23,7 @@ from rest_framework.documentation import include_docs_urls
 
 
 from account.views import UserRegisterAV, RegisterOtpAV, ConfirmRegisterOtpAV, UsersListAV, ForgotPhoneCheckAV, ConfirmForgetOtpAV, ForgetChangePasswordAV
-from vendor.views import VendorRegisterCheckAV, VendorRegisterAV, VendorUpdateAV, VendorSubscriptionAV
+from vendor.views import VendorRegisterCheckAV, VendorRegisterAV, VendorUpdateAV
 
 
 urlpatterns = [
@@ -52,9 +52,9 @@ urlpatterns = [
     path('api/users/list/', UsersListAV.as_view(), name='users-list'),
 
     path('api/vendor/check/', VendorRegisterCheckAV.as_view(), name='check-user-as-vendor'),
-
     path('api/vendor/register/', VendorRegisterAV.as_view(), name='vendor-register'),
+
     path('api/vendor/update/', VendorUpdateAV.as_view(), name='vendor-update'),
-    path('api/vendor/subscription/', VendorSubscriptionAV.as_view(), name='vendor-subscription'),
+    # path('api/vendor/subscription/', VendorSubscriptionAV.as_view(), name='vendor-subscription'),
 
 ]
