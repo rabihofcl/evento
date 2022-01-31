@@ -1,13 +1,12 @@
-import email
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 from .models import Vendor
 from .serializers import VendorSerializer
 from account.models import User
 from rest_framework import status
+from rest_framework.parsers import MultiPartParser, FormParser
 
 # Create your views here.
 
@@ -31,6 +30,7 @@ class VendorRegisterCheckAV(APIView):
 class VendorRegisterAV(APIView):
 
     permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
 
 
     def get(self, request):
@@ -38,7 +38,7 @@ class VendorRegisterAV(APIView):
         serializer = VendorSerializer(vendors, many=True)
         return Response(serializer.data)
 
-    def post(self, request):
+    def post(self, request, format=None):
 
         if Vendor.objects.filter(user = request.user).exists():
             return Response({
@@ -52,7 +52,7 @@ class VendorRegisterAV(APIView):
                 serializer.save(user=request.user)
                 user.is_staff = True
                 user.save()
-                return Response(serializer.data)
+                return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)            
 
@@ -81,3 +81,17 @@ class VendorUpdateAV(APIView):
         user.save()
 
         return Response(serializer.data)
+
+
+
+class VendorHomePageAV(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+
+        vendor = Vendor.objects.get(user = request.user)
+
+        return Response({
+            "vendor": vendor
+        })

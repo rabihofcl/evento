@@ -57,7 +57,7 @@ class RegisterOtpAV(APIView):
             auth_token = config('auth_token')
             client = Client(account_sid, auth_token)
 
-            verification = client.verify \
+            client.verify \
                 .services('VA47f566d6a44e75409506f475d3231b04') \
                 .verifications \
                 .create(to='+91'+phone_number, channel='sms')

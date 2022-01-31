@@ -52,7 +52,7 @@ class UserSerializer(serializers.ModelSerializer):
                 # validating conditions
                 if match == None:
                     raise serializers.ValidationError({
-                        "errors":"Password should contain Uppercase, Lowercase, Numeric and Special Characters."
+                        "error":"Password should contain Uppercase, Lowercase, Numeric and Special Characters."
                     })
                 else:
                     user = User(

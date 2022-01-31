@@ -13,17 +13,22 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from unicodedata import name
+
+
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 # from rest_framework_simplejwt import views as jwt_views
 from rest_framework_simplejwt.views import TokenObtainPairView,TokenRefreshView
 from rest_framework.schemas import get_schema_view
 from rest_framework.documentation import include_docs_urls
 
+from . import views
+
 
 from account.views import UserRegisterAV, RegisterOtpAV, ConfirmRegisterOtpAV, UsersListAV, ForgotPhoneCheckAV, ConfirmForgetOtpAV, ForgetChangePasswordAV
-from vendor.views import VendorRegisterCheckAV, VendorRegisterAV, VendorUpdateAV
+from vendor.views import VendorRegisterCheckAV, VendorRegisterAV, VendorUpdateAV, VendorHomePageAV
 
 
 urlpatterns = [
@@ -53,8 +58,16 @@ urlpatterns = [
 
     path('api/vendor/check/', VendorRegisterCheckAV.as_view(), name='check-user-as-vendor'),
     path('api/vendor/register/', VendorRegisterAV.as_view(), name='vendor-register'),
+    path('api/vendor/home/', VendorHomePageAV.as_view(), name='vendor-homepage'),
 
     path('api/vendor/update/', VendorUpdateAV.as_view(), name='vendor-update'),
     # path('api/vendor/subscription/', VendorSubscriptionAV.as_view(), name='vendor-subscription'),
 
+
+
+
+    path('testing/', views.testing, name='testing' ),
+
 ]
+
+urlpatterns += static(settings.MEDIA_URL, documnent_root=settings.MEDIA_ROOT)
