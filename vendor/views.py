@@ -1,9 +1,11 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
+import datetime 
+from datetime import timedelta
 
 from .models import Vendor
-from .serializers import VendorSerializer
+from .serializers import VendorSerializer, VendorSerializerAll
 from account.models import User
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -50,6 +52,13 @@ class VendorRegisterAV(APIView):
             serializer = VendorSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save(user=request.user)
+                vendor = Vendor.objects.get(user = request.user)
+                if vendor.subscription_type == 'monthly':
+                    vendor.expiry_date = vendor.subscription_date + timedelta(days=30)
+                    vendor.save()
+                else:
+                    vendor.expiry_date = vendor.subscription_date + timedelta(days=365)
+                    vendor.save()
                 user.is_staff = True
                 user.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
@@ -89,9 +98,24 @@ class VendorHomePageAV(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-
         vendor = Vendor.objects.get(user = request.user)
+        serializer = VendorSerializerAll(vendor, many=False)
+
 
         return Response({
-            "vendor": vendor
+            "vendor": serializer.data
+        })
+
+
+class VendorProfile(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        vendor = Vendor.objects.get(user = request.user)
+        serializer = VendorSerializerAll(vendor, many=False)
+
+
+        return Response({
+            "vendor": serializer.data
         })
