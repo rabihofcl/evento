@@ -7,8 +7,8 @@ from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 
-def upload_to(instance, filename):
-    return 'vendor-profile/{filename}'.format(filename=filename)
+# def upload_to(instance, filename):
+#     return 'vendor-profile/{filename}'.format(filename=filename)
 
 
 class Vendor(models.Model):
@@ -16,7 +16,7 @@ class Vendor(models.Model):
     category = models.CharField(max_length=50)
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=1000, blank=True)
-    profile_picture = models.ImageField(_("Image"), upload_to=upload_to, default='vendor-profile/default_pro.png')
+    profile_picture = models.FileField(upload_to='media/vendor-profile/')
     place = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
     state = models.CharField(max_length=50)

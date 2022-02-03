@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
+    'storages',
 
     'account',
     'category',
@@ -176,4 +177,15 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': True,
 }
+
+
+AWS_ACCESS_KEY_ID = 'AKIA3YC7SEEUI7PXMSJK'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'evento-s3'
+AWS_S3_SIGNATURE_VERSION = 's3v4'
+# AWS_S3_REGION_NAME = config('AWS_S3_REGION_NAME')
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+AWS_S3_VERIFY = True
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 

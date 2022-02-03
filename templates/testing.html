@@ -11,17 +11,17 @@
 <body>
 
 
-    <!-- {% for vendor in vendors %}
-
-    <img src="{{ vendor.profile_picture.url }}" alt="">
-
-    {% endfor %} -->
+    {% for vendor in vendors %}
 
     {% if vendor.profile_picture %}
     <img src="{{ vendor.profile_picture.url }}" width="240px">
     {% else %}
     dghifsknliutdn
     {% endif %}
+
+    {% endfor %}
+
+
 
 
 </body>

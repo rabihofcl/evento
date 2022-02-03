@@ -8,7 +8,7 @@ from .models import Vendor
 from .serializers import VendorSerializer, VendorSerializerAll
 from account.models import User
 from rest_framework import status
-from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
 # Create your views here.
 
@@ -96,7 +96,7 @@ class VendorUpdateAV(APIView):
 class VendorHomePageAV(APIView):
 
     permission_classes = [IsAuthenticated]
-    parser_classes = [MultiPartParser, FormParser]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
 
     def get(self, request):
         vendor = Vendor.objects.get(user = request.user)

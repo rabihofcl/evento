@@ -16,7 +16,6 @@ def testing(request):
         'vendors': vendors,
     }
 
-    # return HttpResponse ("sbhlk.n")
     return render(request, 'testing.html', context)
 
 
