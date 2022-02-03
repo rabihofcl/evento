@@ -27,8 +27,8 @@ from rest_framework.documentation import include_docs_urls
 from . import views
 
 
-from account.views import UserRegisterAV, RegisterOtpAV, ConfirmRegisterOtpAV, UsersListAV, ForgotPhoneCheckAV, ConfirmForgetOtpAV, ForgetChangePasswordAV
-from vendor.views import VendorRegisterCheckAV, VendorRegisterAV, VendorUpdateAV, VendorHomePageAV, VendorProfile
+from account.views import UserRegisterAV, RegisterOtpAV, UsersListAV, ForgotPhoneCheckAV, ConfirmForgetOtpAV, ForgetChangePasswordAV, MyTokenObtainPairView
+from vendor.views import VendorRegisterCheckAV, VendorRegisterAV, VendorHomePageAV, VendorProfile
 
 
 urlpatterns = [
@@ -44,13 +44,13 @@ urlpatterns = [
     # path('api/login/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     # path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
 
-    path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/login/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
 
     path('api/register/', UserRegisterAV.as_view(), name='register'),
     path('api/register/otp/', RegisterOtpAV.as_view(), name='register-otp-verify'),
-    path('api/register/confirm/', ConfirmRegisterOtpAV.as_view(), name='register-otp-confirm'),
+    path('api/register/confirm/', RegisterOtpAV.as_view(), name='register-otp-confirm'),
     path('api/forget/phonecheck/', ForgotPhoneCheckAV.as_view(), name='forget-phone-check'),
     path('api/forget/otpconfirm/', ConfirmForgetOtpAV.as_view(), name='forget-otp-confirm'),
     path('api/forget/changepass/', ForgetChangePasswordAV.as_view(), name='forget-password-change'),

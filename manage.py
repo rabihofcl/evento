@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-try:
-    import pymysql
-    pymysql.install_as_MySQLdb()
-except ImportError:
-    print("Failed to import pymysql")
 
     
 """Django's command-line utility for administrative tasks."""

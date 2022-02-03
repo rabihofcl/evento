@@ -66,31 +66,6 @@ class VendorRegisterAV(APIView):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)            
 
 
-class VendorUpdateAV(APIView):
-
-    def get(self, request):
-        user = request.user
-        serializer = VendorSerializer(user, many=False)      
-        return Response(serializer.data)
-
-
-    def put(self, request):
-        user = request.user
-        serializer = VendorSerializer(user, many=False)
-
-        data = request.data
-        user.full_name = data['full_name']
-        user.profile_picture = data['profile_picture']
-        user.category = data['category']
-        user.place = data['place']
-        user.city = data['city']
-        user.state = data['state']
-        user.pincode = data['pincode']
-
-        user.save()
-
-        return Response(serializer.data)
-
 
 
 class VendorHomePageAV(APIView):
@@ -101,7 +76,6 @@ class VendorHomePageAV(APIView):
     def get(self, request):
         vendor = Vendor.objects.get(user = request.user)
         serializer = VendorSerializerAll(vendor, many=False)
-
 
         return Response({
             "vendor": serializer.data
@@ -136,8 +110,6 @@ class VendorProfile(APIView):
         vendor.pincode = data['pincode']
 
         vendor.save()
-
-        serializer = VendorSerializer(vendor, many=False)
 
         return Response({
             "success":"Profile updated"
