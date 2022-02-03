@@ -69,6 +69,4 @@ urlpatterns = [
 
     path('testing/', views.testing, name='testing' ),
 
-]
-
-urlpatterns += static(settings.MEDIA_URL, documnent_root=settings.MEDIA_ROOT)
+] +static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

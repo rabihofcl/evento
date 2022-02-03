@@ -96,6 +96,7 @@ class VendorUpdateAV(APIView):
 class VendorHomePageAV(APIView):
 
     permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
 
     def get(self, request):
         vendor = Vendor.objects.get(user = request.user)
@@ -110,6 +111,7 @@ class VendorHomePageAV(APIView):
 class VendorProfile(APIView):
 
     permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
 
     def get(self, request):
         vendor = Vendor.objects.get(user = request.user)
