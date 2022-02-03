@@ -60,9 +60,7 @@ urlpatterns = [
     path('api/vendor/register/', VendorRegisterAV.as_view(), name='vendor-register'),
     path('api/vendor/home/', VendorHomePageAV.as_view(), name='vendor-homepage'),
     path('api/vendor/profile/', VendorProfile.as_view(), name='vendor-profile'),
-
-    path('api/vendor/update/', VendorUpdateAV.as_view(), name='vendor-update'),
-    # path('api/vendor/subscription/', VendorSubscriptionAV.as_view(), name='vendor-subscription'),
+    path('api/vendor/update/', VendorProfile.as_view(), name='vendor-update'),
 
 
 

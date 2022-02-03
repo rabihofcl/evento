@@ -121,3 +121,24 @@ class VendorProfile(APIView):
         return Response({
             "vendor": serializer.data
         })
+
+    def put(self, request):
+        vendor = Vendor.objects.get(user = request.user)
+        data = request.data
+
+        vendor.name = data['name']
+        vendor.category = data['category']
+        vendor.description = data['description']
+        vendor.profile_picture = data['profile_picture']
+        vendor.place = data['place']
+        vendor.city = data['city']
+        vendor.state = data['state']
+        vendor.pincode = data['pincode']
+
+        vendor.save()
+
+        serializer = VendorSerializer(vendor, many=False)
+
+        return Response({
+            "success":"Profile updated"
+        })
