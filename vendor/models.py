@@ -1,7 +1,6 @@
 from email.policy import default
 from django.db import models
 from account.models import User
-from category.models import Category
 from django.utils.translation import gettext_lazy as _
 
 

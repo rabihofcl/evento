@@ -67,13 +67,15 @@ class UsersListAV(APIView):
 class RegisterOtpAV(APIView):
 
     def get(self, request):
-
-        if request.session['phone_number']:
+        if 'phone_number' in request.session:
             phone_number = request.session['phone_number']
-        else:
+        elif User.objects.filter(email = request.user).exists():
             user = User.objects.get(email = request.user)
             phone_number = user.phone_number
-
+        else:
+            return Response({
+                "error": "Phone number not found"
+            })
         account_sid = config('account_sid')
         auth_token = config('auth_token')
         client = Client(account_sid, auth_token)
@@ -86,22 +88,24 @@ class RegisterOtpAV(APIView):
 
             return Response({
                 "success": "Otp send successfully"
-            })
+        })
         except TwilioRestException:
             return Response({
                 "error": "some error occured"
             })
             
-
             
     def post(self, request):
-
         
-        if request.session['phone_number']:
+        if 'phone_number' in request.session:
             phone_number = request.session['phone_number']
-        else:
+        elif User.objects.filter(email = request.user).exists():
             user = User.objects.get(email = request.user)
             phone_number = user.phone_number
+        else:
+            return Response({
+                "error": "Phone number not found"
+            })
 
         data = request.data
         otp = data['otp']

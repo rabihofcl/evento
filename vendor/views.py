@@ -55,10 +55,9 @@ class VendorRegisterAV(APIView):
                 vendor = Vendor.objects.get(user = request.user)
                 if vendor.subscription_type == 'monthly':
                     vendor.expiry_date = vendor.subscription_date + timedelta(days=30)
-                    vendor.save()
                 else:
                     vendor.expiry_date = vendor.subscription_date + timedelta(days=365)
-                    vendor.save()
+                vendor.save()
                 user.is_staff = True
                 user.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
@@ -103,11 +102,16 @@ class VendorProfile(APIView):
         vendor.name = data['name']
         vendor.category = data['category']
         vendor.description = data['description']
-        vendor.profile_picture = data['profile_picture']
         vendor.place = data['place']
         vendor.city = data['city']
         vendor.state = data['state']
         vendor.pincode = data['pincode']
+
+
+        if data['profile_picture']:
+            vendor.profile_picture = data['profile_picture']
+        else:
+            pass
 
         vendor.save()
 

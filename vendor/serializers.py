@@ -10,8 +10,8 @@ class VendorSerializer(serializers.ModelSerializer):
         model = Vendor
         exclude = [ 'user', 'subscription_date', 'expiry_date' ]
 
-class VendorSerializerAll(serializers.ModelSerializer):
 
+class VendorSerializerAll(serializers.ModelSerializer):
 
     class Meta:
         model = Vendor

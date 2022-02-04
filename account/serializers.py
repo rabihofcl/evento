@@ -1,8 +1,7 @@
 from rest_framework import serializers
-from rest_framework.response import Response
 from .models import User
 import re
-from rest_framework_simplejwt.tokens import RefreshToken
+
 
 
 class UserSerializerWithToken(serializers.ModelSerializer):
@@ -10,8 +9,6 @@ class UserSerializerWithToken(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'is_verified']
-
-
 
 
 class UserSerializer(serializers.ModelSerializer):
