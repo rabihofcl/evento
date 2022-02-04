@@ -81,7 +81,7 @@ class VendorHomePageAV(APIView):
         })
 
 
-class VendorProfile(APIView):
+class VendorProfileAV(APIView):
 
     permission_classes = [IsAuthenticated]
     parser_classes = [MultiPartParser, FormParser]
@@ -118,3 +118,43 @@ class VendorProfile(APIView):
         return Response({
             "success":"Profile updated"
         })
+
+
+
+
+
+class ShowcaseImagesAV(APIView):
+
+    permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
+
+    def put(self, request):
+        vendor = Vendor.objects.get(user = request.user)
+        data = request.data
+        try:
+            if 'image1' in data:
+                vendor.image1 = data['image1']
+            elif 'image2' in data:
+                vendor.image2 = data['image2']
+            elif 'image3' in data:
+                vendor.image3 = data['image3']
+            elif 'image4' in data:
+                vendor.image4 = data['image4']
+            elif 'image5' in data:
+                vendor.image5 = data['image5']
+            elif 'image6' in data:
+                vendor.image6 = data['image6']
+            else:
+                return Response({
+                    "error": "No images Uploaded"
+                })
+
+            vendor.save()
+            return Response({
+                "success": "Image uploaded"
+            })
+        except:
+            return Response({
+                "error": "Uploading error occured"
+            })
+        

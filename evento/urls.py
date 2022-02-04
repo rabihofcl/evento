@@ -15,6 +15,7 @@ Including another URLconf
 """
 
 
+from unicodedata import name
 from django.contrib import admin
 from django.urls import path
 from django.conf import settings
@@ -26,9 +27,8 @@ from rest_framework.documentation import include_docs_urls
 
 from . import views
 
-
 from account.views import UserRegisterAV, RegisterOtpAV, UsersListAV, ForgotPhoneCheckAV, ConfirmForgetOtpAV, ForgetChangePasswordAV, MyTokenObtainPairView
-from vendor.views import VendorRegisterCheckAV, VendorRegisterAV, VendorHomePageAV, VendorProfile
+from vendor.views import ShowcaseImagesAV, VendorRegisterCheckAV, VendorRegisterAV, VendorHomePageAV, VendorProfileAV
 
 
 urlpatterns = [
@@ -59,8 +59,9 @@ urlpatterns = [
     path('api/vendor/check/', VendorRegisterCheckAV.as_view(), name='check-user-as-vendor'),
     path('api/vendor/register/', VendorRegisterAV.as_view(), name='vendor-register'),
     path('api/vendor/home/', VendorHomePageAV.as_view(), name='vendor-homepage'),
-    path('api/vendor/profile/', VendorProfile.as_view(), name='vendor-profile'),
-    path('api/vendor/update/', VendorProfile.as_view(), name='vendor-update'),
+    path('api/vendor/profile/', VendorProfileAV.as_view(), name='vendor-profile'),
+    path('api/vendor/update/', VendorProfileAV.as_view(), name='vendor-update'),
+    path('api/vendor/addImage/', ShowcaseImagesAV.as_view(), name='vendor-add-images'),
 
 
 
