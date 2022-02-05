@@ -10,9 +10,15 @@ class VendorSerializer(serializers.ModelSerializer):
         exclude = [ 'user', 'subscription_date', 'expiry_date' ]
 
 
-class VendorSerializerAll(serializers.ModelSerializer):
+class VendorHomeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Vendor
         fields = ['name', 'profile_picture']
 
+
+class VendorSerializerAll(serializers.ModelSerializer):
+
+    class Meta:
+        model = Vendor
+        fields = '__all__'

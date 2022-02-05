@@ -5,7 +5,7 @@ import datetime
 from datetime import timedelta
 
 from .models import Vendor
-from .serializers import VendorSerializer, VendorSerializerAll
+from .serializers import VendorHomeSerializer, VendorSerializer, VendorSerializerAll
 from account.models import User
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
@@ -74,7 +74,7 @@ class VendorHomePageAV(APIView):
 
     def get(self, request):
         vendor = Vendor.objects.get(user = request.user)
-        serializer = VendorSerializerAll(vendor, many=False)
+        serializer = VendorHomeSerializer(vendor, many=False)
 
         return Response({
             "vendor": serializer.data
