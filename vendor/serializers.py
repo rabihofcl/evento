@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from rest_framework.permissions import IsAuthenticated
 from .models import Vendor
 
 
@@ -15,5 +14,5 @@ class VendorSerializerAll(serializers.ModelSerializer):
 
     class Meta:
         model = Vendor
-        fields = '__all__'
+        fields = ['name', 'profile_picture']
 

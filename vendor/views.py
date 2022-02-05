@@ -1,6 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticated
 import datetime 
 from datetime import timedelta
 
@@ -108,7 +108,7 @@ class VendorProfileAV(APIView):
         vendor.pincode = data['pincode']
 
 
-        if data['profile_picture']:
+        if 'profile_picture' in data:
             vendor.profile_picture = data['profile_picture']
         else:
             pass

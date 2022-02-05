@@ -45,8 +45,8 @@ INSTALLED_APPS = [
     'storages',
 
     'account',
-    'category',
     'vendor',
+    'user',
 ]
 
 AUTH_USER_MODEL = 'account.User'

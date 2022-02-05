@@ -1,8 +1,10 @@
+import email
 from decouple import config
 from twilio.rest import Client
 from twilio.base.exceptions import TwilioRestException
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
 # Create your views here.
 from rest_framework.response import Response
@@ -228,3 +230,27 @@ class ForgetChangePasswordAV(APIView):
         return Response({
             "success": "Password changed successfully"
         })
+
+
+class ChangeProPicAV(APIView):
+
+    permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
+
+    def put(self, request):
+        user = User.objects.get(email = request.user)
+        data = request.data
+
+        if 'user_pro_pic' in data:
+            user.user_pro_pic = data['user_pro_pic']
+            user.save()
+
+            return Response({
+                "success": "Profile picture updated"
+            })
+        else:
+            return Response({
+                "error": "Profile picture not updated"
+            })
+
+        

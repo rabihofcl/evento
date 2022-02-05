@@ -25,10 +25,13 @@ from rest_framework_simplejwt.views import TokenObtainPairView,TokenRefreshView
 from rest_framework.schemas import get_schema_view
 from rest_framework.documentation import include_docs_urls
 
+
+
 from . import views
 
-from account.views import UserRegisterAV, RegisterOtpAV, UsersListAV, ForgotPhoneCheckAV, ConfirmForgetOtpAV, ForgetChangePasswordAV, MyTokenObtainPairView
+from account.views import ChangeProPicAV, UserRegisterAV, RegisterOtpAV, UsersListAV, ForgotPhoneCheckAV, ConfirmForgetOtpAV, ForgetChangePasswordAV, MyTokenObtainPairView
 from vendor.views import ShowcaseImagesAV, VendorRegisterCheckAV, VendorRegisterAV, VendorHomePageAV, VendorProfileAV
+from user.views import ProfessionalsListAV
 
 
 urlpatterns = [
@@ -62,6 +65,9 @@ urlpatterns = [
     path('api/vendor/profile/', VendorProfileAV.as_view(), name='vendor-profile'),
     path('api/vendor/update/', VendorProfileAV.as_view(), name='vendor-update'),
     path('api/vendor/addImage/', ShowcaseImagesAV.as_view(), name='vendor-add-images'),
+
+    path('api/user/changepropic/', ChangeProPicAV.as_view(), name='user-change-profile-picture'),
+    path('api/user/professions/', ProfessionalsListAV.as_view(), name='user-professionals-list'),
 
 
 
