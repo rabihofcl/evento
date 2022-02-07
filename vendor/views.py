@@ -90,7 +90,6 @@ class VendorProfileAV(APIView):
         vendor = Vendor.objects.get(user = request.user)
         serializer = VendorSerializerAll(vendor, many=False)
 
-
         return Response({
             "vendor": serializer.data
         })
@@ -109,6 +108,7 @@ class VendorProfileAV(APIView):
 
 
         if 'profile_picture' in data:
+            vendor.profile_picture.delete()
             vendor.profile_picture = data['profile_picture']
         else:
             pass
@@ -133,16 +133,24 @@ class ShowcaseImagesAV(APIView):
         data = request.data
         try:
             if 'image1' in data:
+                vendor.image1.delete()
+                print(vendor.image1)
                 vendor.image1 = data['image1']
+                print(vendor.image1)
             elif 'image2' in data:
+                vendor.image2.delete()
                 vendor.image2 = data['image2']
             elif 'image3' in data:
+                vendor.image3.delete()
                 vendor.image3 = data['image3']
             elif 'image4' in data:
+                vendor.image4.delete()
                 vendor.image4 = data['image4']
             elif 'image5' in data:
+                vendor.image5.delete()
                 vendor.image5 = data['image5']
             elif 'image6' in data:
+                vendor.image6.delete()
                 vendor.image6 = data['image6']
             else:
                 return Response({

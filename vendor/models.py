@@ -33,3 +33,10 @@ class Vendor(models.Model):
 
     def __str__(self):
         return str(self.user)
+
+
+class VendorSlots(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    available_slots = models.JSONField()
+    busy_slots = models.JSONField()
+    booked_slots = models.JSONField()

@@ -242,6 +242,7 @@ class ChangeProPicAV(APIView):
         data = request.data
 
         if 'user_pro_pic' in data:
+            user.user_pro_pic.delete()
             user.user_pro_pic = data['user_pro_pic']
             user.save()
 
@@ -254,3 +255,97 @@ class ChangeProPicAV(APIView):
             })
 
         
+
+class UpdatePasswordAV(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request):
+
+        data = request.data
+        current_password = data['current_password']
+        new_password = data['new_password']
+
+        user = User.objects.get(user = request.user)
+        success = user.check_password(current_password)
+
+        if success:
+            user.set_password(new_password)
+            user.save
+            return Response({
+                "success": "Password changed successfully"
+            })
+        else:
+            return Response({
+                "error": "Wrong current Password"
+            })
+
+
+# class ChangeEmailAV(APIView):
+
+#     permission_classes = [IsAuthenticated]
+
+#     def put(self, request):
+
+#         data = request.data
+#         current_email = data['current_email']
+#         new_email = data['new_email']
+
+#         user = User.objects.get(user = request.user)
+        
+
+#         if user.email == current_email:
+#             user.email = new_email
+#             user.save
+#             return Response({
+#                 "success": "Email changed successfully"
+#             })
+#         else:
+#             return Response({
+#                 "error": "Wrong current Email"
+#             })
+
+# class ChangePasswordAV(APIView):
+
+#     permission_classes = [IsAuthenticated]
+
+#     def put(self, request):
+
+#         data = request.data
+#         current_password = data['current_password']
+#         new_password = data['new_password']
+
+#         user = User.objects.get(user = request.user)
+#         success = user.check_password(current_password)
+
+#         if success:
+#             user.set_password(new_password)
+#             user.save
+#             return Response({
+#                 "success": "Password changed successfully"
+#             })
+#         else:
+#             return Response({
+#                 "error": "Wrong current Password"
+#             })                        
+# ssion_classes = [IsAuthenticated]
+
+#     def put(self, request):
+
+#         data = request.data
+#         current_password = data['current_password']
+#         new_password = data['new_password']
+
+#         user = User.objects.get(user = request.user)
+#         success = user.check_password(current_password)
+
+#         if success:
+#             user.set_password(new_password)
+#             user.save
+#             return Response({
+#                 "success": "Password changed successfully"
+#             })
+#         else:
+#             return Response({
+#                 "error": "Wrong current Password"
+#             })                        

@@ -29,9 +29,9 @@ from rest_framework.documentation import include_docs_urls
 
 from . import views
 
-from account.views import ChangeProPicAV, UserRegisterAV, RegisterOtpAV, UsersListAV, ForgotPhoneCheckAV, ConfirmForgetOtpAV, ForgetChangePasswordAV, MyTokenObtainPairView
+from account.views import ChangeProPicAV, UserRegisterAV, RegisterOtpAV, UsersListAV, ForgotPhoneCheckAV, ConfirmForgetOtpAV, ForgetChangePasswordAV, MyTokenObtainPairView, UpdatePasswordAV
 from vendor.views import ShowcaseImagesAV, VendorRegisterCheckAV, VendorRegisterAV, VendorHomePageAV, VendorProfileAV
-from user.views import ProfessionalsListAV
+from user.views import ProfessionalsListAV, UserHomeAV, UserProfileAV
 
 
 urlpatterns = [
@@ -53,11 +53,12 @@ urlpatterns = [
 
     path('api/register/', UserRegisterAV.as_view(), name='register'),
     path('api/register/otp/', RegisterOtpAV.as_view(), name='register-otp-verify'),
-    path('api/register/confirm/', RegisterOtpAV.as_view(), name='register-otp-confirm'),
+    path('api/register/otpverify/', RegisterOtpAV.as_view(), name='register-otp-confirm'),
     path('api/forget/phonecheck/', ForgotPhoneCheckAV.as_view(), name='forget-phone-check'),
-    path('api/forget/otpconfirm/', ConfirmForgetOtpAV.as_view(), name='forget-otp-confirm'),
+    path('api/forget/otpverify/', ConfirmForgetOtpAV.as_view(), name='forget-otp-confirm'),
     path('api/forget/changepass/', ForgetChangePasswordAV.as_view(), name='forget-password-change'),
     path('api/users/list/', UsersListAV.as_view(), name='users-list'),
+    path('api/updatepassword/', UpdatePasswordAV.as_view(), name='update-password'),
 
     path('api/vendor/check/', VendorRegisterCheckAV.as_view(), name='check-user-as-vendor'),
     path('api/vendor/register/', VendorRegisterAV.as_view(), name='vendor-register'),
@@ -66,9 +67,10 @@ urlpatterns = [
     path('api/vendor/update/', VendorProfileAV.as_view(), name='vendor-update'),
     path('api/vendor/addImage/', ShowcaseImagesAV.as_view(), name='vendor-add-images'),
 
+    path('api/user/home/', UserHomeAV.as_view(), name='user-home'),
+    path('api/user/profile/', UserProfileAV.as_view(), name='user-profile'),
     path('api/user/changepropic/', ChangeProPicAV.as_view(), name='user-change-profile-picture'),
     path('api/user/professions/', ProfessionalsListAV.as_view(), name='user-professionals-list'),
-
 
 
 
