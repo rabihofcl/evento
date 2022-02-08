@@ -266,12 +266,12 @@ class UpdatePasswordAV(APIView):
         current_password = data['current_password']
         new_password = data['new_password']
 
-        user = User.objects.get(user = request.user)
+        user = User.objects.get(email = request.user)
         success = user.check_password(current_password)
 
         if success:
             user.set_password(new_password)
-            user.save
+            user.save()
             return Response({
                 "success": "Password changed successfully"
             })
