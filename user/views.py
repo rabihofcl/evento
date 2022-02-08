@@ -1,3 +1,4 @@
+import email
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
@@ -19,9 +20,8 @@ class UserHomeAV(APIView):
     def get(self, request):
 
         try:
-            user = User.objects.get(user = request.user)
+            user = User.objects.get(email = request.user)
             serializer = UserHomeSerializer(user, many=False)
-
             return Response({
                 "success": serializer.data
             })
@@ -62,7 +62,7 @@ class UserProfileAV(APIView):
     def get(self, request):
 
         try:
-            user = User.objects.get(user = request.user)
+            user = User.objects.get(email = request.user)
             serializer = UserProfileSerializer(user, many=False)
 
             return Response({
