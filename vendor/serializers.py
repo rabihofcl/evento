@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Vendor
+from .models import Vendor, VendorSlots
 
 
 
@@ -22,3 +22,10 @@ class VendorSerializerAll(serializers.ModelSerializer):
     class Meta:
         model = Vendor
         fields = '__all__'
+
+        
+class VendorSlotsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = VendorSlots
+        fields = ['busy_slots']

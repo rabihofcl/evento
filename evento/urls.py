@@ -30,8 +30,9 @@ from rest_framework.documentation import include_docs_urls
 from . import views
 
 from account.views import ChangeProPicAV, UserRegisterAV, RegisterOtpAV, UsersListAV, ForgotPhoneCheckAV, ConfirmForgetOtpAV, ForgetChangePasswordAV, MyTokenObtainPairView, UpdatePasswordAV
-from vendor.views import ShowcaseImagesAV, VendorRegisterCheckAV, VendorRegisterAV, VendorHomePageAV, VendorProfileAV
+from vendor.views import ShowcaseImagesAV, VendorRegisterCheckAV, VendorRegisterAV, VendorHomePageAV, VendorProfileAV, VendorSlotsAV, VendorSlotsSerializer
 from user.views import ProfessionalsListAV, UserHomeAV, UserProfileAV
+from eventlist.views import EventListAV
 
 
 urlpatterns = [
@@ -67,10 +68,13 @@ urlpatterns = [
     path('api/vendor/update/', VendorProfileAV.as_view(), name='vendor-update'),
     path('api/vendor/addImage/', ShowcaseImagesAV.as_view(), name='vendor-add-images'),
 
+    path('api/vendor/slots/', VendorSlotsAV.as_view(), name='vendor-slots'), 
+
     path('api/user/home/', UserHomeAV.as_view(), name='user-home'),
     path('api/user/profile/', UserProfileAV.as_view(), name='user-profile'),
     path('api/user/changepropic/', ChangeProPicAV.as_view(), name='user-change-profile-picture'),
     path('api/user/professions/', ProfessionalsListAV.as_view(), name='user-professionals-list'),
+    path('api/user/eventlist/', EventListAV.as_view(), name='user-event-list'),
 
 
 

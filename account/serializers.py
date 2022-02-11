@@ -65,7 +65,7 @@ class UserSerializer(serializers.ModelSerializer):
                         name = self.validated_data['name'],
                         username = self.validated_data['username'],
                         email = self.validated_data['email'],
-                        phone_number = self.validated_data['phone_number']
+                        EventListphone_number = self.validated_data['phone_number']
                     )
                     user.set_password(password)
                     user.save()

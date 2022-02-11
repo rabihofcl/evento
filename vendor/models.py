@@ -1,4 +1,5 @@
 from email.policy import default
+from pyexpat import model
 from django.db import models
 from account.models import User
 from django.utils.translation import gettext_lazy as _
@@ -37,6 +38,8 @@ class Vendor(models.Model):
 
 class VendorSlots(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    available_slots = models.JSONField()
-    busy_slots = models.JSONField()
-    booked_slots = models.JSONField()
+    busy_slots = models.JSONField(blank=True)
+    booked_slots = models.JSONField(blank=True)
+
+    def __str__(self):
+        return str(self.user)    

@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'account',
     'vendor',
     'user',
+    'eventlist',
 ]
 
 AUTH_USER_MODEL = 'account.User'

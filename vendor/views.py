@@ -4,8 +4,8 @@ from rest_framework.permissions import IsAuthenticated
 import datetime 
 from datetime import timedelta
 
-from .models import Vendor
-from .serializers import VendorHomeSerializer, VendorSerializer, VendorSerializerAll
+from .models import Vendor, VendorSlots
+from .serializers import VendorHomeSerializer, VendorSerializer, VendorSerializerAll, VendorSlotsSerializer
 from account.models import User
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
@@ -166,3 +166,40 @@ class ShowcaseImagesAV(APIView):
                 "error": "Uploading error occured"
             })
         
+
+
+class VendorSlotsAV(APIView):
+
+    permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
+
+    def get(self, request):
+
+        try:
+            slots = VendorSlots.objects.get(user = request.user)
+            serializer = VendorSlotsSerializer(slots, many=False)
+
+            return Response({
+                "success": serializer.data
+            })
+        except:
+            return Response({
+                "error": "no data"
+            })
+
+
+    def post(self, request):
+
+        serializer = VendorSlotsSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response({
+                "success": serializer.data,
+                "status": status.HTTP_200_OK
+            })
+        else:
+            return Response({
+                "error": serializer.errors,
+                "status": status.HTTP_400_BAD_REQUEST
+            }) 
