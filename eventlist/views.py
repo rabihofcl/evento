@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from account.models import User
 from eventlist.models import EventList
 
-from .serializers import EventListSerializer
+from .serializers import EventListSerializer, EventListSerializerAll
 # Create your views here.
 
 
@@ -20,7 +20,7 @@ class EventListAV(APIView):
         user = User.objects.get(email=request.user)
         eventlists = EventList.objects.filter(user=request.user)
 
-        serializer = EventListSerializer(eventlists, many=True)
+        serializer = EventListSerializerAll(eventlists, many=True)
 
         return Response({
             "eventlist": serializer.data
